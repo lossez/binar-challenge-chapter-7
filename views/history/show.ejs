@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <%- include('../partial/head'); %>
+  </head>
+  <body>
+    <%- include('../partial/nav'); %>
+    <div class="container">
+      <div class="row mt-4">
+        <div class="col-md-8 mx-auto">
+          <a href="/view/history" class="btn btn-outline-primary mb-3">back</a>
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">History detail</h5>
+              <div class="row mb-2 pt-2">
+                <div class="col-sm-3">
+                  <p>Name</p>
+                </div>
+                <div class="col">
+                  <p class="card-text">
+                    <%= result.user_game.user_game_biodata.first_name + " " +
+                    result.user_game.user_game_biodata.last_name %>
+                  </p>
+                </div>
+              </div>
+              <div class="row mb-2 pt-2">
+                <div class="col-sm-3">
+                  <p>Score</p>
+                </div>
+                <div class="col">
+                  <p class="card-text"><%= result.score %></p>
+                </div>
+              </div>
+              <div class="row mb-2 pt-2">
+                <div class="col-sm-3">
+                  <p>Time</p>
+                </div>
+                <div class="col">
+                  <p class="card-text">
+                    <%= result.updatedAt.toLocaleString() %>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

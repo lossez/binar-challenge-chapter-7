@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Game | Create User</title>
+    <%- include('../partial/head'); %>
+  </head>
+  <body>
+    <%- include('../partial/nav'); %>
+    <div class="container my-4">
+      <div class="row">
+        <div class="col-lg-10 col-md-8 mx-auto">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title my-4">Tambah User</h5>
+              <form id="form-add">
+                <div class="mb-3 row">
+                  <label class="col-sm-2 col-form-label">Username</label>
+                  <div class="col-sm-10">
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="username"
+                      placeholder="Username"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <label class="col-sm-2 col-form-label">Password</label>
+                  <div class="col-sm-10">
+                    <input
+                      type="password"
+                      class="form-control"
+                      name="password"
+                      placeholder="********"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <label class="col-sm-2 col-form-label">First Name</label>
+                  <div class="col-sm-10">
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="first_name"
+                      placeholder="First Name"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <label class="col-sm-2 col-form-label">Last Name</label>
+                  <div class="col-sm-10">
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="last_name"
+                      placeholder="Last Name"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <label class="col-sm-2 col-form-label">Email</label>
+                  <div class="col-sm-10">
+                    <input
+                      type="email"
+                      class="form-control"
+                      name="email"
+                      placeholder="email@email.com"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <label class="col-sm-2 col-form-label">Age</label>
+                  <div class="col-sm-10">
+                    <input
+                      type="number"
+                      class="form-control"
+                      name="umur"
+                      placeholder="18"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <label class="col-sm-2 col-form-label"> Gender </label>
+                  <div class="col-sm-10">
+                    <select
+                      class="form-select"
+                      name="gender"
+                      aria-label="Default select example"
+                      required
+                    >
+                      <option value="default" selected>
+                        Select Your Gender
+                      </option>
+                      <option value="male">Male</option>
+                      <option value="female">Female</option>
+                    </select>
+                  </div>
+                </div>
+
+                <button
+                  onclick="addUser(event)"
+                  class="btn btn-outline-primary"
+                >
+                  Submit
+                </button>
+                <a href="/view/usergame" class="btn btn-outline-danger"
+                  >Cancel</a
+                >
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+  function addUser(e) {
+    e.preventDefault();
+    const form = document.getElementById("form-add");
+    const formData = new FormData(form);
+    const data = {};
+    formData.forEach((value, key) => {
+      data[key] = value;
+    });
+    fetch("/api/usergame/", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    }).then((res) => {
+      if (res.status === 201) {
+        window.location.href = "/view/usergame";
+      } else {
+        alert("Gagal");
+      }
+    });
+  }
+</script>

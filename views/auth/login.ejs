@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <%- include('../partial/head'); %>
+  </head>
+  <body>
+    <div class="container" style="margin-top: 200px">
+      <div class="row">
+        <div class="col-md-4 mx-auto">
+          <div class="card">
+            <div class="card-body">
+              <form id="form-login">
+                <h1 class="text-center">Sign In</h1>
+                <label class="my-2">Username</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="username"
+                  placeholder="username"
+                  required
+                />
+                <label class="my-2">Password</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  name="password"
+                  placeholder="password"
+                  required
+                />
+                <div class="d-grid gap-2 mt-3 mb-4">
+                  <button
+                    class="btn btn-primary"
+                    type="button"
+                    onclick="loginHandler()"
+                  >
+                    Sign In
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+  function loginHandler() {
+    const form = document.getElementById("form-login");
+    const formData = new FormData(form);
+    const params = new URLSearchParams(formData);
+
+    fetch("/login", {
+      method: "POST",
+      body: params,
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        localStorage.setItem("token", data.token);
+        window.location.href = "/view/dashboard";
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    // const data = {};
+    // formData.forEach((value, key) => {
+    //   data[key] = value;
+    // });
+    // fetch("/login", {
+    //   method: "POST",
+    //   body: JSON.stringify(data),
+    //   headers: {
+    //     Accept: "application/json",
+    //     "Content-Type": "application/json",
+    //   },
+    // })
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     if (data.status === 200) {
+    //       console.log(data.token);
+    //       // window.location.href = "/view/dashboard";
+    //     } else {
+    //       alert("login failed");
+    //     }
+    //   });
+  }
+</script>

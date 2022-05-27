@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Game | Create User</title>
+    <%- include('../partial/head'); %>
+  </head>
+  <body>
+    <%- include('../partial/nav'); %>
+    <div class="container my-4">
+      <div class="row">
+        <div class="col-lg-10 col-md-8 mx-auto">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title my-4">Edit Usergame Data</h5>
+              <form id="form-edit">
+                <div class="mb-3 row">
+                  <label class="col-sm-2 col-form-label">Username</label>
+                  <div class="col-sm-10">
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="username"
+                      placeholder="Username"
+                      value="<%= result.username %>"
+                    />
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <label class="col-sm-2 col-form-label">Password</label>
+                  <div class="col-sm-10">
+                    <input
+                      type="password"
+                      class="form-control"
+                      name="password"
+                      placeholder="********"
+                      value="<%= result.password %>"
+                    />
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <label class="col-sm-2 col-form-label">First Name</label>
+                  <div class="col-sm-10">
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="first_name"
+                      placeholder="First Name"
+                      value="<%= result.user_game_biodata.first_name %>"
+                    />
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <label class="col-sm-2 col-form-label">Last Name</label>
+                  <div class="col-sm-10">
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="last_name"
+                      placeholder="Last Name"
+                      value="<%= result.user_game_biodata.last_name %>"
+                    />
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <label class="col-sm-2 col-form-label">Email</label>
+                  <div class="col-sm-10">
+                    <input
+                      type="email"
+                      class="form-control"
+                      name="email"
+                      placeholder="email@email.com"
+                      value="<%= result.user_game_biodata.email %>"
+                    />
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <label class="col-sm-2 col-form-label">Age</label>
+                  <div class="col-sm-10">
+                    <input
+                      type="number"
+                      class="form-control"
+                      name="umur"
+                      placeholder="18"
+                      value="<%= result.user_game_biodata.umur %>"
+                    />
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <label class="col-sm-2 col-form-label"> Gender </label>
+                  <div class="col-sm-10">
+                    <select
+                      class="form-select"
+                      name="gender"
+                      aria-label="Default select example"
+                    >
+                      <option
+                        value="<%= result.user_game_biodata.gender %>"
+                        selected
+                      >
+                        <%= result.user_game_biodata.gender %>
+                      </option>
+                      <option value="male">Male</option>
+                      <option value="female">Female</option>
+                    </select>
+                  </div>
+                </div>
+                <button
+                  class="btn btn-outline-primary"
+                  onclick="updateUser(event)"
+                >
+                  Submit
+                </button>
+                <a href="/view/usergame" class="btn btn-outline-danger"
+                  >Cancel</a
+                >
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+  function updateUser(e) {
+    e.preventDefault();
+    const form = document.getElementById("form-edit");
+    const formData = new FormData(form);
+    const data = {};
+    formData.forEach((value, key) => {
+      data[key] = value;
+    });
+    fetch("/api/usergame/<%= result.id %>", {
+      method: "PUT",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((res) => {
+      if (res.status === 200) {
+        window.location.href = "/view/usergame";
+      }
+    });
+  }
+</script>

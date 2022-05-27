@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile</title>
+    <%- include('../partial/head'); %>
+  </head>
+  <body>
+    <%- include('../partial/nav'); %>
+    <div class="container">
+      <div class="row mt-4">
+        <div class="col-md-8 mx-auto"></div>
+        <div class="card">
+          <div class="card-body px-4 text-center mx-auto">
+            <h3 class="card-title">User Profile</h3>
+              <% if(!result.user_game_biodata.profile_picture) { %>
+              <img src="/images/default-profile.png" alt="" height="250" width="250" class="img-thumbnail">
+              <% } else { %>
+              <img src="/images/<%= result.user_game_biodata.profile_picture %> " alt="" height="250" width="250" class="img-thumbnail">
+              <% } %>
+            <div class="mt-4">
+              <h5>First Name : <%= result.user_game_biodata.first_name %></h5>
+              <h5>Last Name : <%= result.user_game_biodata.last_name %></h5>
+              <h5>Email: <%= result.user_game_biodata.email %></h5>
+            </div>
+            <div class="row">
+              <div class="col-auto mx-auto">
+                <a href="/view/profile/edit" class="btn btn-primary">Edit</a>
+                <a href="/view/profile" class="btn btn-danger">Cancel</a>
+              </div>
+            </div>  
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

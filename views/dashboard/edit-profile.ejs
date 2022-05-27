@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile</title>
+    <%- include('../partial/head'); %>
+  </head>
+  <body>
+    <%- include('../partial/nav'); %>
+    <div class="container">
+      <div class="row mt-4">
+        <div class="col-md-8 mx-auto"></div>
+        <div class="card">
+          <div class="card-body px-4 mx-auto">
+            <h3 class="card-title text-center mb-4">User Profile</h3>
+            <form  id="form-edit" method="post" enctype="multipart/form-data" action="/api/profile/edit">
+                <div class="row">
+                    <div class="col-auto">
+                        <% if(!result.user_game_biodata.profile_picture) { %>
+                        <img src="/images/default-profile.png" alt="" height="250" width="250" class="img-thumbnail">
+                        <% } else { %>
+                        <img src="/images/<%= result.user_game_biodata.profile_picture %> " alt="" height="250" width="250" class="img-thumbnail">
+                        <% } %>
+                    </div>
+    
+                    <div class="col-auto my-auto">
+                        <label for="formFile" class="form-label">Profile Picture</label>
+                        <%= result.user_game_biodata.profile_picture %>
+                        <input class="form-control" type="file" id="formFile" name="profile_picture" value="<%= result.user_game_biodata.profile_picture %>">
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <!-- <div class="mb-3 ">
+                        <label for="username" class="form-label">Username</label>
+                        <input class="form-control" type="text" id="username" name="username" value="<%= result.username %>">
+                    </div> -->
+                    <div class="mb-3 ">
+                        <label for="first_name" class="form-label">First Name</label>
+                        <input class="form-control" type="text" id="first_name" name="first_name" value="<%= result.user_game_biodata.first_name %>">
+                    </div>
+                    <div class="mb-3 ">
+                        <label for="last_name" class="form-label">Last Name</label>
+                        <input class="form-control" type="text" id="last_name" name="last_name" value="<%= result.user_game_biodata.last_name %>">
+                    </div>
+                    <div class="mb-3 ">
+                        <label for="email" class="form-label">Email</label>
+                        <input class="form-control" type="text" id="email" name="email" value="<%= result.user_game_biodata.email %>">
+                        </div>  
+                </div>
+                <div class="row">
+                    <div class="col-auto mx-auto">
+                        <button type="submit" class="btn btn-primary" 
+                        >Submit</button>
+                        <a href="/view/profile" class="btn btn-danger">Cancel</a>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+    const editHandler = (e) => {
+        e.preventDefault();
+        const form = document.getElementById("form-edit");
+        const formData = new FormData(form);
+        const data = {};
+        formData.forEach((value, key) => {
+            data[key] = value;
+        });
+        // let formFile = document.getElementById("formFile").files.length;
+        // console.log(data);
+        // let filename = ''
+        // if(formFile != 0) {
+        //     filename = document.getElementById("formFile").files[0].name;
+        //     data['profile_picture'] = filename;
+        // }else{
+        //     filename = '<%= result.user_game_biodata.profile_picture %>'
+        //     data['profile_picture'] = filename;
+        // }
+
+        console.log(data)
+
+        fetch('/api/usergame/'+'<%= result.id %>', {
+            method: "PUT",
+            body: JSON.stringify(data),
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+        })
+        .then((res) => {
+            console.log(res);
+            if(res.status === 200) {
+                alert("Profile updated successfully");
+                window.location.href = "/view/profile";
+            } else {
+                alert("Error updating profile");
+            }
+        })
+        .catch(err => {
+            console.log(err);
+        });
+
+
+        
+    }
+</script>

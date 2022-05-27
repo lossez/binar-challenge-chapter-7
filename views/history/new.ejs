@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Game | Create User</title>
+    <%- include('../partial/head'); %>
+  </head>
+  <body>
+    <%- include('../partial/nav'); %>
+    <div class="container my-4">
+      <div class="row">
+        <div class="col-lg-10 col-md-8 mx-auto">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title my-4">Tambah User History</h5>
+              <form id="form-new">
+                <div class="mb-3 row">
+                  <label class="col-sm-2 col-form-label">Score</label>
+                  <div class="col-sm-10">
+                    <input
+                      type="number"
+                      class="form-control"
+                      name="score"
+                      placeholder="100"
+                      required
+                    />
+                  </div>
+                </div>
+                <% if (user.role_id === 1) { %>
+                <div class="mb-3 row">
+                  <label class="col-sm-2 col-form-label"> User ID </label>
+                  <div class="col-sm-10">
+                    <select
+                      class="form-select"
+                      name="user_id"
+                      aria-label="Default select example"
+                      required
+                    >
+                      <% result.forEach((item) =>{ %>
+
+                      <option value="<%= item.id %>"><%= item.id %></option>
+                      <% }) %>
+                    </select>
+                  </div>
+                </div>
+                <% }else{ %>
+                <input
+                  type="hidden"
+                  class="form-control"
+                  name="user_id"
+                  value="<%= user.id %>"
+                />
+                <% } %>
+                <button
+                  class="btn btn-outline-primary"
+                  onclick="addHistory(event)"
+                >
+                  Submit
+                </button>
+                <a href="/view/history" class="btn btn-outline-danger"
+                  >Cancel</a
+                >
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+  const role_id = "<%= user.role_id %>";
+  function addHistory(e) {
+    e.preventDefault();
+    const form = document.getElementById("form-new");
+    const formData = new FormData(form);
+    const data = {};
+    formData.forEach((value, key) => {
+      data[key] = value;
+    });
+    fetch("/api/history/", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    }).then((res) => {
+      if (res.status === 201) {
+        window.location.href = "/view/history";
+      } else {
+        alert("Gagal");
+      }
+    });
+  }
+</script>

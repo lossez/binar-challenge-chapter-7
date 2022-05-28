@@ -136,8 +136,10 @@ module.exports = {
     console.log(req.body);
     const user = req.user;
     const dataBody = req.body;
-    if (req.file) {
-      dataBody.profile_picture = req.file.filename;
+    if (req.files) {
+      req.files.map((file) => {
+        dataBody[file.fieldname] = file.filename;
+      });
     }
 
     user_game
@@ -159,11 +161,8 @@ module.exports = {
                 user_id: user.id,
               },
             })
-            .then((result) => {
-              res.status(200).json({
-                message: "sucessfully update user",
-                data: req.body,
-              });
+            .then(() => {
+              res.redirect("/view/profile");
             });
         });
       })

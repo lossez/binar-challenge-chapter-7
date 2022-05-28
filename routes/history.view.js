@@ -8,12 +8,12 @@ router.get("/history", restrict.auth, historyView.index);
 router.get("/history/new", restrict.auth, historyView.new);
 router.get(
   "/history/:id",
-  [restrict.auth, restrict.isHistoryOwner],
+  [restrict.auth, restrict.isHistoryOwnerOrAdmin],
   historyView.show
 );
 router.get(
   "/history/:id/edit",
-  [restrict.auth, restrict.isHistoryOwner],
+  [restrict.auth, restrict.isHistoryOwnerOrAdmin],
   historyView.edit
 );
 module.exports = router;

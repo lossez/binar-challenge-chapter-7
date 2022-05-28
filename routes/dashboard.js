@@ -5,11 +5,17 @@ const multer = require("multer");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "public/images/");
+    if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
+      cb(null, "public/images/");
+    }
+    if (file.mimetype === "video/mp4" || file.mimetype === "video/avi") {
+      cb(null, "public/videos/");
+    }
   },
   filename: function (req, file, cb) {
     const ext = file.mimetype.split("/")[1];
-    cb(null, file.originalname);
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(null, file.fieldname + "-" + uniqueSuffix + "." + ext);
   },
 });
 
@@ -23,10 +29,6 @@ router.get("/view/dashboard", restrict.auth, (req, res) => {
 });
 router.get("/view/profile", restrict.auth, userController.profile);
 router.get("/view/profile/edit", restrict.auth, userController.editProfile);
-router.post(
-  "/api/profile/edit",
-  upload.single("profile_picture"),
-  userController.updateProfile
-);
+router.post("/api/profile/edit", upload.any(), userController.updateProfile);
 
 module.exports = router;

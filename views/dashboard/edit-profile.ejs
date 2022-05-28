@@ -27,15 +27,10 @@
     
                     <div class="col-auto my-auto">
                         <label for="formFile" class="form-label">Profile Picture</label>
-                        <%= result.user_game_biodata.profile_picture %>
                         <input class="form-control" type="file" id="formFile" name="profile_picture" value="<%= result.user_game_biodata.profile_picture %>">
                     </div>
                 </div>
                 <div class="mt-4">
-                    <!-- <div class="mb-3 ">
-                        <label for="username" class="form-label">Username</label>
-                        <input class="form-control" type="text" id="username" name="username" value="<%= result.username %>">
-                    </div> -->
                     <div class="mb-3 ">
                         <label for="first_name" class="form-label">First Name</label>
                         <input class="form-control" type="text" id="first_name" name="first_name" value="<%= result.user_game_biodata.first_name %>">
@@ -48,6 +43,19 @@
                         <label for="email" class="form-label">Email</label>
                         <input class="form-control" type="text" id="email" name="email" value="<%= result.user_game_biodata.email %>">
                         </div>  
+                </div>
+                <div class="row my-4">
+                  <div class="col-auto">
+                    <video controls width="250">
+                        <source src="/videos/<%= result.user_game_biodata.profile_video %>"
+                                type="video/mp4">
+                        Sorry, your browser doesn't support embedded videos.
+                    </video>
+                  </div>
+                  <div class="col-auto my-auto">
+                        <label for="formFile" class="form-label">Profile Video</label>
+                        <input class="form-control" type="file" id="formFile" name="profile_video" value="<%= result.user_game_biodata.profile_video %>">
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-auto mx-auto">
@@ -64,50 +72,3 @@
   </body>
 </html>
 
-<script>
-    const editHandler = (e) => {
-        e.preventDefault();
-        const form = document.getElementById("form-edit");
-        const formData = new FormData(form);
-        const data = {};
-        formData.forEach((value, key) => {
-            data[key] = value;
-        });
-        // let formFile = document.getElementById("formFile").files.length;
-        // console.log(data);
-        // let filename = ''
-        // if(formFile != 0) {
-        //     filename = document.getElementById("formFile").files[0].name;
-        //     data['profile_picture'] = filename;
-        // }else{
-        //     filename = '<%= result.user_game_biodata.profile_picture %>'
-        //     data['profile_picture'] = filename;
-        // }
-
-        console.log(data)
-
-        fetch('/api/usergame/'+'<%= result.id %>', {
-            method: "PUT",
-            body: JSON.stringify(data),
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: "Bearer " + localStorage.getItem("token"),
-            },
-        })
-        .then((res) => {
-            console.log(res);
-            if(res.status === 200) {
-                alert("Profile updated successfully");
-                window.location.href = "/view/profile";
-            } else {
-                alert("Error updating profile");
-            }
-        })
-        .catch(err => {
-            console.log(err);
-        });
-
-
-        
-    }
-</script>

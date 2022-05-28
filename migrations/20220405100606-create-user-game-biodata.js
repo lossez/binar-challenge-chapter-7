@@ -23,6 +23,9 @@ module.exports = {
       profile_picture: {
         type: Sequelize.STRING,
       },
+      profile_video: {
+        type: Sequelize.STRING,
+      },
       umur: {
         type: Sequelize.INTEGER,
       },

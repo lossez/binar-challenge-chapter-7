@@ -14,7 +14,7 @@
           <div class="card">
             <div class="card-body">
               <form id="form-login">
-                <h1 class="text-center">Sign In</h1>
+                <h1 class="text-center">Sign Up</h1>
                 <label class="my-2">Username</label>
                 <input
                   type="text"
@@ -37,10 +37,12 @@
                     type="button"
                     onclick="loginHandler()"
                   >
-                    Sign In
+                    Sign Up
                   </button>
                 </div>
-                <a href="/register">Create an Account!</a>
+                <h5>
+                  <a href="/login" class="text-decoration-none">Sign In</a>
+                </h5>
               </form>
             </div>
           </div>
@@ -56,7 +58,7 @@
     const formData = new FormData(form);
     const params = new URLSearchParams(formData);
 
-    fetch("/login", {
+    fetch("/api/usergame", {
       method: "POST",
       body: params,
       headers: {
@@ -67,8 +69,7 @@
         return res.json();
       })
       .then((data) => {
-        localStorage.setItem("token", data.token);
-        window.location.href = "/view/dashboard";
+        window.location.href = "/login";
       })
       .catch((err) => {
         console.log(err);

@@ -12,7 +12,6 @@ router.post("/login", passport.authenticate("local", {}), (req, res) => {
     { id: req.user.id, username: req.user.username },
     process.env.JWT_SECRET
   );
-
   res.json({
     token: token,
   });
@@ -24,6 +23,10 @@ router.post("/logout", function (req, res, next) {
     }
     res.redirect("/login");
   });
+});
+
+router.get("/register", (req, res) => {
+  res.render("auth/register");
 });
 
 module.exports = router;

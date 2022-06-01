@@ -40,10 +40,10 @@
                     <td><%= ++i %></td>
                     <td><%= user.username %></td>
                     <td>
-                      <%= user.user_game_biodata.first_name + " " +
-                      user.user_game_biodata.last_name %>
+                      <%= user.user_game_biodata?.first_name + " " +
+                      user.user_game_biodata?.last_name %>
                     </td>
-                    <td><%= user.user_game_biodata.gender %></td>
+                    <td><%= user.user_game_biodata?.gender %></td>
 
                     <td>
                       <a
@@ -81,6 +81,10 @@
     if (result) {
       fetch("/api/usergame/" + id, {
         method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
       }).then((res) => {
         if (res.ok) {
           window.location.href = "/view/usergame";

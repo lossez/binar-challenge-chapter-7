@@ -5,7 +5,7 @@ const { jwtAuth } = require("../middlewares/jwt_auth");
 
 router.get("/usergame", jwtAuth, userController.getAllUser);
 router.get("/usergame/:id", jwtAuth, userController.getUserById);
-router.post("/usergame", userController.createUser);
+router.post("/usergame", jwtAuth, userController.createUser);
 router.put("/usergame/:id", jwtAuth, userController.updateUser);
 router.delete("/usergame/:id", jwtAuth, userController.deleteUser);
 

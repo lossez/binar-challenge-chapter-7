@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Log In</title>
     <%- include('../partial/head'); %>
   </head>
   <body>
@@ -40,7 +40,14 @@
                     Sign In
                   </button>
                 </div>
-                <a href="/register">Create an Account!</a>
+                <div class="row">
+                  <div class="col-auto mx-auto">
+                    <a href="/register">Create an Account!</a>
+                  </div>
+                  <div class="col-auto mx-auto">
+                    <a href="/reset-password">Reset Password</a>
+                  </div>
+                </div>
               </form>
             </div>
           </div>
@@ -56,7 +63,7 @@
     const formData = new FormData(form);
     const params = new URLSearchParams(formData);
 
-    fetch("/login", {
+    fetch("/api/auth/login", {
       method: "POST",
       body: params,
       headers: {
@@ -71,7 +78,7 @@
         window.location.href = "/view/dashboard";
       })
       .catch((err) => {
-        console.log(err);
+        alert("Invalid username or password");
       });
   }
 </script>

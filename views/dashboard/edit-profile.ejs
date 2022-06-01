@@ -15,51 +15,55 @@
         <div class="card">
           <div class="card-body px-4 mx-auto">
             <h3 class="card-title text-center mb-4">User Profile</h3>
-            <form  id="form-edit" method="post" enctype="multipart/form-data" action="/api/profile/edit">
+            <form  id="form-edit" 
+            enctype="multipart/form-data"
+            method="post"
+            >
                 <div class="row">
                     <div class="col-auto">
-                        <% if(!result.user_game_biodata.profile_picture) { %>
-                        <img src="/images/default-profile.png" alt="" height="250" width="250" class="img-thumbnail">
+                        <% if(!result.user_game_biodata?.profile_picture) { %>
+                        <img src="/images/default-profile.png" alt="Foto Profile mu" height="250" width="250" class="img-thumbnail">
                         <% } else { %>
-                        <img src="/images/<%= result.user_game_biodata.profile_picture %> " alt="" height="250" width="250" class="img-thumbnail">
+                        <img src="/images/<%= result.user_game_biodata?.profile_picture %> " alt="Foto Profile mu" height="250" width="250" class="img-thumbnail">
                         <% } %>
                     </div>
     
                     <div class="col-auto my-auto">
-                        <label for="formFile" class="form-label">Profile Picture</label>
-                        <input class="form-control" type="file" id="formFile" name="profile_picture" value="<%= result.user_game_biodata.profile_picture %>">
+                        <label for="formFileImage" class="form-label">Profile Picture</label>
+                        <input class="form-control" type="file" id="formFileImage" name="profile_picture" value="<%= result.user_game_biodata?.profile_picture %>">
                     </div>
                 </div>
                 <div class="mt-4">
                     <div class="mb-3 ">
                         <label for="first_name" class="form-label">First Name</label>
-                        <input class="form-control" type="text" id="first_name" name="first_name" value="<%= result.user_game_biodata.first_name %>">
+                        <input class="form-control" type="text" id="first_name" name="first_name" value="<%= result.user_game_biodata?.first_name %>">
                     </div>
                     <div class="mb-3 ">
                         <label for="last_name" class="form-label">Last Name</label>
-                        <input class="form-control" type="text" id="last_name" name="last_name" value="<%= result.user_game_biodata.last_name %>">
+                        <input class="form-control" type="text" id="last_name" name="last_name" value="<%= result.user_game_biodata?.last_name %>">
                     </div>
                     <div class="mb-3 ">
                         <label for="email" class="form-label">Email</label>
-                        <input class="form-control" type="text" id="email" name="email" value="<%= result.user_game_biodata.email %>">
+                        <input class="form-control" type="text" id="email" name="email" value="<%= result.user_game_biodata?.email %>">
                         </div>  
                 </div>
                 <div class="row my-4">
                   <div class="col-auto">
                     <video controls width="250">
-                        <source src="/videos/<%= result.user_game_biodata.profile_video %>"
+                        <source src="/videos/<%= result.user_game_biodata?.profile_video %>"
                                 type="video/mp4">
                         Sorry, your browser doesn't support embedded videos.
                     </video>
                   </div>
                   <div class="col-auto my-auto">
-                        <label for="formFile" class="form-label">Profile Video</label>
-                        <input class="form-control" type="file" id="formFile" name="profile_video" value="<%= result.user_game_biodata.profile_video %>">
+                        <label for="formFileVideo" class="form-label">Profile Video</label>
+                        <input class="form-control" type="file" id="formFileVideo" name="profile_video" value="<%= result.user_game_biodata?.profile_video %>">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-auto mx-auto">
-                        <button type="submit" class="btn btn-primary" 
+                        <button type="submit" class="btn btn-primary"
+                        onclick="editProfile(event)"" 
                         >Submit</button>
                         <a href="/view/profile" class="btn btn-danger">Cancel</a>
                     </div>
@@ -72,3 +76,29 @@
   </body>
 </html>
 
+<script>
+
+const editProfile = (e) => {
+  e.preventDefault();
+  const form = document.getElementById('form-edit');
+  const formData = new FormData(form);
+  const userId = '<%=  user.id %>';
+
+  
+  fetch('/api/profile/edit?id='+userId, {
+    method: 'POST',
+    body: formData,
+  })
+  // .then(response => response.json())
+  .then((res) => {
+    if(res.ok) {
+      alert('Profile Updated');
+      window.location.href = '/view/profile';
+    } else {
+      alert('Error');
+    }
+  })
+  
+
+}
+</script>

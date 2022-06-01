@@ -81,7 +81,11 @@ const getUserById = async (req, res) => {
 };
 
 const createUser = async (req, res) => {
-  if (req.body.username === "" || req.body.password === "") {
+  if (
+    req.body.username === "" ||
+    req.body.password === "" ||
+    req.body.email === ""
+  ) {
     return res.status(422).json({
       message: "username and password is required",
     });
@@ -102,44 +106,55 @@ const createUser = async (req, res) => {
     });
   }
 
-  user_game
-    .create({
-      username: req.body.username,
-      password: bcrypt.hashSync(req.body.password, 10),
-      role_id: 2,
-    })
-    .then((result) => {
-      return user_game_biodata
-        .create({
-          first_name: req.body.first_name,
-          last_name: req.body.last_name,
-          email: req.body.email,
-          umur: req.body.umur,
-          email: req.body.email,
-          gender: req.body.gender,
-          user_id: result.id,
-        })
-        .then((result) => {
-          res.status(201).json({
-            message: "user sucessfully created",
-            // data: result,
-          });
-        })
-        .catch((err) => {
-          res.status(500).json({
-            message: err.message,
-            data: null,
-            error: err.errors,
-          });
-        });
-    })
-    .catch((err) => {
-      res.status(500).json({
-        message: err.message,
-        data: null,
-        error: err.errors,
-      });
+  const email = await user_game_biodata.findOne({
+    where: {
+      email: req.body.email,
+    },
+  });
+  if (email) {
+    return res.status(422).json({
+      message: "email already exist",
     });
+  } else {
+    user_game
+      .create({
+        username: req.body.username,
+        password: bcrypt.hashSync(req.body.password, 10),
+        role_id: 2,
+      })
+      .then((result) => {
+        return user_game_biodata
+          .create({
+            first_name: req.body.first_name,
+            last_name: req.body.last_name,
+            email: req.body.email,
+            umur: req.body.umur,
+            email: req.body.email,
+            gender: req.body.gender,
+            user_id: result.id,
+          })
+          .then((result) => {
+            res.status(201).json({
+              message: "user sucessfully created",
+              // data: result,
+            });
+          })
+          .catch((err) => {
+            res.status(500).json({
+              message: err.message,
+              data: null,
+              error: err.errors,
+            });
+          });
+      })
+      .catch((err) => {
+        res.status(500).json({
+          message: err.message,
+          data: null,
+          error: err.errors,
+        });
+      });
+  }
 };
 
 const updateUser = async (req, res) => {
@@ -155,20 +170,26 @@ const updateUser = async (req, res) => {
           message: "user id not found",
         });
       }
-      result.update(req.body).then((result) => {
-        return user_game_biodata
-          .update(req.body, {
-            where: {
-              user_id: req.params.id,
-            },
-          })
-          .then((result) => {
-            res.status(200).json({
-              message: "sucessfully update user",
-              // data: result,
+      result
+        .update({
+          username: req.body.username || result.username,
+          password: bcrypt.hashSync(req.body.password, 10) || result.password,
+          role_id: req.body.role_id || result.role_id,
+        })
+        .then((result) => {
+          return user_game_biodata
+            .update(req.body, {
+              where: {
+                user_id: req.params.id,
+              },
+            })
+            .then((result) => {
+              res.status(200).json({
+                message: "sucessfully update user",
+                // data: result,
+              });
             });
-          });
-      });
+        });
     })
 
     .catch((err) => {

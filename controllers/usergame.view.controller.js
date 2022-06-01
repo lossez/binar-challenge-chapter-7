@@ -145,7 +145,7 @@ module.exports = {
     user_game
       .findOne({
         where: {
-          id: user.id,
+          id: req.query.id,
         },
       })
       .then((result) => {
@@ -158,7 +158,7 @@ module.exports = {
           return user_game_biodata
             .update(dataBody, {
               where: {
-                user_id: user.id,
+                user_id: req.query.id,
               },
             })
             .then(() => {

@@ -65,7 +65,7 @@
   const logout = document.querySelector("#logout");
   logout.addEventListener("click", function (e) {
     e.preventDefault();
-    fetch("/logout", {
+    fetch("/api/auth/logout", {
       method: "POST",
     })
       .then((res) => {

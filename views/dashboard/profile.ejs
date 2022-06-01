@@ -15,19 +15,19 @@
         <div class="card">
           <div class="card-body px-4 text-center mx-auto">
             <h3 class="card-title">User Profile</h3>
-              <% if(!result.user_game_biodata.profile_picture) { %>
+              <% if(!result.user_game_biodata?.profile_picture) { %>
               <img src="/images/default-profile.png" alt="Foto Profile mu" height="250" width="250" class="img-thumbnail">
               <% } else { %>
-              <img src="/images/<%= result.user_game_biodata.profile_picture %> " alt="Foto Profile mu" height="250" width="250" class="img-thumbnail">
+              <img src="/images/<%= result.user_game_biodata?.profile_picture %> " alt="Foto Profile mu" height="250" width="250" class="img-thumbnail">
               <% } %>
             <div class="mt-4">
-              <h5>First Name : <%= result.user_game_biodata.first_name %></h5>
-              <h5>Last Name : <%= result.user_game_biodata.last_name %></h5>
-              <h5>Email: <%= result.user_game_biodata.email %></h5>
+              <h5>First Name : <%= result.user_game_biodata?.first_name %></h5>
+              <h5>Last Name : <%= result.user_game_biodata?.last_name %></h5>
+              <h5>Email: <%= result.user_game_biodata?.email %></h5>
             </div>
             <div class="div">
               <video controls width="250">
-                  <source src="/videos/<%= result.user_game_biodata.profile_video %>"
+                  <source src="/videos/<%= result.user_game_biodata?.profile_video %>"
                           type="video/mp4">
                   Sorry, your browser doesn't support embedded videos.
               </video>

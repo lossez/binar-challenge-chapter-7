@@ -33,10 +33,7 @@ module.exports = {
         res.render("history/index", { result, user });
       })
       .catch((err) => {
-        res.status(500).json({
-          message: "Error",
-          data: err,
-        });
+        res.redirect("/view/dashboard");
       });
   },
   show: (req, res) => {
@@ -60,6 +57,9 @@ module.exports = {
       .then((result) => {
         const user = req.user;
         res.render("history/show", { result, user });
+      })
+      .catch((err) => {
+        res.redirect("/view/dashboard");
       });
   },
   new: (req, res) => {

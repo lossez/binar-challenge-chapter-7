@@ -138,13 +138,15 @@
       body: JSON.stringify(data),
       headers: {
         "Content-Type": "application/json",
-        Accept: "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token"),
       },
     }).then((res) => {
       if (res.status === 201) {
         window.location.href = "/view/usergame";
       } else {
-        alert("Gagal");
+        return res.json().then((data) => {
+          alert(data.message);
+        });
       }
     });
   }

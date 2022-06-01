@@ -5,9 +5,13 @@
     "version": "1.0.0",
     "title": "UserGame API Documentation"
   },
-  "host": "binar-challenge-chapter-6.herokuapp.com",
+  "host": "localhost:3000",
   "basePath": "/api",
   "tags": [
+    {
+      "name": "auth",
+      "description": "Authentication"
+    },
     {
       "name": "user_game",
       "description": "Everything about your User Game"
@@ -17,7 +21,83 @@
       "description": "Access to Petstore orders"
     }
   ],
+  "schemes": ["http"],
   "paths": {
+    "/auth/login": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "Login",
+        "description": "Login",
+        "operationId": "login",
+        "consumes": ["application/x-www-form-urlencoded"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "username",
+            "in": "formData",
+            "description": "Username",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "password",
+            "in": "formData",
+            "description": "Password",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid username or password"
+          }
+        }
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "Register",
+        "description": "Register",
+        "operationId": "register",
+        "consumes": ["application/x-www-form-urlencoded"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "username",
+            "in": "formData",
+            "description": "Username",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "password",
+            "in": "formData",
+            "description": "Password",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "email",
+            "in": "formData",
+            "description": "Email",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid username or password"
+          }
+        }
+      }
+    },
     "/usergame": {
       "post": {
         "tags": ["user_game"],
@@ -26,6 +106,11 @@
         "operationId": "addUserGame",
         "consumes": ["application/json"],
         "produces": ["application/json"],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "parameters": [
           {
             "in": "body",
@@ -49,6 +134,11 @@
         "tags": ["user_game"],
         "summary": "Get all usergames",
         "description": "",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "operationId": "getUserGames",
         "produces": ["application/json"],
         "responses": {
@@ -72,6 +162,11 @@
         "description": "Returns a single usergame",
         "operationId": "getUserGameById",
         "produces": ["application/json"],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
@@ -102,6 +197,11 @@
         "summary": "Updated usergame",
         "operationId": "updateUserGame",
         "produces": ["application/json"],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
@@ -135,6 +235,11 @@
         "description": "",
         "operationId": "deleteUserGame",
         "produces": ["application/json"],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
@@ -163,6 +268,11 @@
         "operationId": "addUserGameHistory",
         "consumes": ["application/json"],
         "produces": ["application/json"],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "parameters": [
           {
             "in": "body",
@@ -188,6 +298,11 @@
         "description": "",
         "operationId": "getUserGameHistory",
         "produces": ["application/json"],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "successful operation",
@@ -209,6 +324,11 @@
         "description": "Returns a single usergame history",
         "operationId": "getUserGameHistoryById",
         "produces": ["application/json"],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
@@ -239,6 +359,11 @@
         "summary": "Updated usergame history",
         "operationId": "updateUserGameHistory",
         "produces": ["application/json"],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
@@ -272,6 +397,11 @@
         "description": "",
         "operationId": "deleteUserGameHistory",
         "produces": ["application/json"],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
@@ -290,6 +420,13 @@
           }
         }
       }
+    }
+  },
+  "securityDefinitions": {
+    "Bearer": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
     }
   },
   "definitions": {

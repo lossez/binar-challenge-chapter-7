@@ -24,6 +24,10 @@ module.exports = (sequelize, DataTypes) => {
       return bcrypt.compareSync(password, this.password);
     };
 
+    static generateHash = (password) => {
+      return bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
+    };
+
     generateToken = () => {
       const { id, username } = this;
       return jwt.sign({ id, username }, process.env.JWT_SECRET);

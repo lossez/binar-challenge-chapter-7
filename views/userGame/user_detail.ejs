@@ -21,7 +21,7 @@
                 </div>
                 <div class="col">
                   <p class="card-text">
-                    <%= result.user_game_biodata.first_name %>
+                    <%= result.user_game_biodata?.first_name %>
                   </p>
                 </div>
               </div>
@@ -31,7 +31,7 @@
                 </div>
                 <div class="col">
                   <p class="card-text">
-                    <%= result.user_game_biodata.last_name %>
+                    <%= result.user_game_biodata?.last_name %>
                   </p>
                 </div>
               </div>
@@ -40,7 +40,9 @@
                   <p>Email</p>
                 </div>
                 <div class="col">
-                  <p class="card-text"><%= result.user_game_biodata.email %></p>
+                  <p class="card-text">
+                    <%= result.user_game_biodata?.email %>
+                  </p>
                 </div>
               </div>
               <div class="row mb-2">
@@ -48,7 +50,7 @@
                   <p>Age</p>
                 </div>
                 <div class="col">
-                  <p class="card-text"><%= result.user_game_biodata.umur %></p>
+                  <p class="card-text"><%= result.user_game_biodata?.umur %></p>
                 </div>
               </div>
               <div class="row mb-2">
@@ -57,7 +59,7 @@
                 </div>
                 <div class="col">
                   <p class="card-text">
-                    <%= result.user_game_biodata.gender %>
+                    <%= result.user_game_biodata?.gender %>
                   </p>
                 </div>
               </div>
